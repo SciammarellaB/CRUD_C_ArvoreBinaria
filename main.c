@@ -31,17 +31,44 @@ int inserir_arvore_regra(char nomeA[125], char nomeB[125]);
 Arvore* cria_noArvore(Brinquedo* brinquedo, Arvore* esquerda, Arvore* direita);
 Arvore* inserir_arvore(Arvore* arvore, Brinquedo* brinquedo);
 int arvore_vazia(Arvore* arvore);
+Brinquedo* buscar_brinquedo(Arvore* arvore, char nome[125]);
+Arvore* remover_brinquedo(Arvore* arvore, char nome[125]);
 void imprimir_brinquedo(Brinquedo* brinquedo);
 void imprimir_arvore_ordem_alfabetica(Arvore* arvore);
-Brinquedo* buscar_brinquedo(Arvore* arvore, char nome[125]);
 void imprimirAcimaDeX(Arvore* arvore, float valor);
 void imprimirAbaixoDeX(Arvore* arvore, float valor);
 void limpar();
 
+//CARGA INICIAL
+Brinquedo* gerar_Brinquedo(char nome[125], char descricao[500], int quantidade, float preco) {
+	Brinquedo* b = (Brinquedo*)malloc(sizeof(Brinquedo));
+	b->Codigo = BRINQUEDO_CODIGO_ATUAL;
+	strcpy(b->Nome, nome);
+	strcpy(b->Descricao, descricao);
+	b->Quantidade = quantidade;
+	b->Preco = preco;
+	BRINQUEDO_CODIGO_ATUAL++;
+	return b;
+}
+
+Arvore* cargaInicial(Arvore* arvore) {
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Boneca de Pano", "Uma boneca de pano feita a mao, perfeita para abracar e brincar.", 15, 29.99));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Carrinho de Controle Remoto", "Um carrinho de controle remoto rapido e agil para corridas emocionantes.", 12, 50));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Quebra-Cabeca de 100 Pecas", "Um quebra-cabeca colorido com 100 pecas para desafiar a mente das criancas.", 20, 24.99));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Bola de Futebol", "Uma bola de futebol de alta qualidade, ideal para jogos no parque.", 18, 40));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Jogo de Construção de Blocos", "Conjunto de blocos de construcao para estimular a criatividade e habilidades motoras.", 25, 34.99));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Jogo de Tabuleiro 'Detetive'", "Um jogo de estrategia e misterio para divertir toda a familia.", 10, 64.99));	
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Patins Infantis", "Patins ajustaveis para criancas aprenderem a patinar com segurança.", 8, 70));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Piano de Brinquedo com Microfone", "Um piano eletronico com microfone para pequenos musicos em ascensao.", 14, 45));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Quebra-Cabeca 3D de Castelo", "Um desafio em tres dimensoes para construir um castelo impressionante.", 6, 55));
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Pelucia do Personagem Favorito", "Uma pelucia fofa do personagem favorito da crianca para abracar e brincar.", 22, 20));
+	return arvore;
+}
+
 //METODOS
 int main(int argc, char** argv) {
-
 	Arvore* arvore = inicializa_arvore();
+	arvore = cargaInicial(arvore);
 
 	gerenciar_menu_principal(arvore);
 	return 0;
@@ -52,15 +79,15 @@ int menu_principal() {
 	printf("\n#########################");
 	printf("\n   LOJA DE BRINQUEDOS    ");
 	printf("\n#########################\n");
-	printf("\n(1) Listar Brinquedos (ORDEM ALFABETICA)");	
+	printf("\n(1) Listar Brinquedos (ORDEM ALFABETICA)");
 	printf("\n(2) Consultar Brinquedo");
 	printf("\n(3) Cadastrar Brinquedo");
-	printf("\n(4) Valores Acima de:");
-	printf("\n(5) Valores Abaixo de:");
+	printf("\n(4) Listar Brinquedos com valor acima de:");
+	printf("\n(5) Listar Brinquedos com valor abaixo de:");	
 	printf("\n(6) Editar Brinquedo");
 	printf("\n(7) Remover Brinquedo");
-	printf("\n(8) Sair");
-	printf("\n\nSelecionar opcao: ");
+	printf("\n(8) Sair\n");
+	printf("\nSelecionar opcao: ");
 	scanf("%d", &opcao);
 	return opcao;
 }
@@ -78,6 +105,7 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				printf("Listar Brinquedos (ORDEM ALFABETICA)\n");
 				if (!arvore_vazia(arvore)) {
 					imprimir_arvore_ordem_alfabetica(arvore);
+					printf("\n");
 					system("pause");
 				}
 				else {
@@ -87,9 +115,15 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				break;			
 			case 2:
 				limpar();
-				Brinquedo* brinquedo = buscar_brinquedo(arvore, "Bonecas");
+				printf("Consultar Brinquedo\n\n");
+				char busca[125];
+				printf("Digite o nome do brinquedo desejado: ");
+				scanf(" %[^\n]", busca);
+				getchar();
+				Brinquedo* brinquedo = buscar_brinquedo(arvore, busca);
 				if (brinquedo) {
 					imprimir_brinquedo(brinquedo);
+					printf("\n");
 					system("pause");
 				}
 				else {
@@ -98,20 +132,40 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				}
 				break;
 			case 3:
+				limpar();
+				printf("Cadastrar Brinquedo\n\n");
 				arvore = inserir_arvore(arvore, criar_Brinquedo());
 				break;
 			case 4:
-				imprimirAcimaDeX(arvore, 10);
+				limpar();
+				printf("Valores Acima de:\n\n");
+				float valorAcima = 0;
+				printf("Digite o valor: ");
+				scanf("%f", &valorAcima);
+				imprimirAcimaDeX(arvore, valorAcima);
+				printf("\nBusca finalizada\n\n");
 				system("pause");
 				break;
 			case 5:
-				imprimirAbaixoDeX(arvore, 10);
+				limpar();
+				printf("Valores Abaixo de:\n\n");
+				float valorAbaixo = 0;
+				printf("Digite o valor: ");
+				scanf("%f", &valorAbaixo);
+				imprimirAbaixoDeX(arvore, valorAbaixo);
+				printf("\nBusca finalizada\n\n");
 				system("pause");
 				break;
 			case 6:
 				break;
 			case 7:
-				arvore = remover_brinquedo(arvore, "Boneca");
+				limpar();
+				printf("Remover Brinquedo\n\n");
+				char remocao[125];
+				printf("Digite o nome do brinquedo a ser removido: ");
+				scanf(" %[^\n]", busca);
+				getchar();
+				arvore = remover_brinquedo(arvore, remocao);
 				break;
 			case 8:
 				sair = 1;
@@ -133,10 +187,12 @@ Arvore* inicializa_arvore() {
 Brinquedo* criar_Brinquedo() {
 	Brinquedo* brinquedo = (Brinquedo*)malloc(sizeof(Brinquedo));
 
-	printf("\nADICIONANDO BRINQUEDO\n");
-
 	printf("Digite o nome do brinquedo: ");
 	scanf(" %[^\n]", brinquedo->Nome);
+	getchar();
+
+	printf("Digite uma descricao (opcional): ");
+	scanf(" %[^\n]", brinquedo->Descricao);
 	getchar();
 
 	printf("Digite a quantidade em estoque: ");
@@ -146,9 +202,6 @@ Brinquedo* criar_Brinquedo() {
 	printf("Digite o preco: ");
 	scanf("%f", &brinquedo->Preco);
 	getchar();
-
-	printf("Digite uma descricao (opcional): ");
-	scanf(" %[^\n]", brinquedo->Descricao);
 
 	brinquedo->Codigo = BRINQUEDO_CODIGO_ATUAL;
 
@@ -185,6 +238,7 @@ Arvore* inserir_arvore(Arvore* arvore, Brinquedo* brinquedo) {
 	//TRATATIVA PARA CASO JA EXISTA O BRINQUEDO INSERIDO - FAZ A LIMPEZA DA MEMORIA ALOCADA DO CADASTRO DO BRINQUEDO
 	else {
 		printf("\nBRINQUEDO JA SE ENCONTRA INSERIDO\n");
+		system("pause");
 		free(brinquedo);
 	}
 
@@ -194,25 +248,6 @@ Arvore* inserir_arvore(Arvore* arvore, Brinquedo* brinquedo) {
 //VERIFICA SE A ARVORE ESTA VAZIA
 int arvore_vazia(Arvore* arvore) {
 	return arvore == NULL;
-}
-
-//METODO PARA RETORNAR E MOSTRAR OS DADOS DO BRINQUEDO NA TELA
-void imprimir_brinquedo(Brinquedo* brinquedo) {
-	printf("\nBrinquedo\n");
-	printf("Codigo: %d\n", brinquedo->Codigo);
-	printf("Nome: %s\n", brinquedo->Nome);
-	printf("Descricao: %s\n", brinquedo->Descricao);
-	printf("Quantidade Estoque: %d\n", brinquedo->Quantidade);
-	printf("Preco: %.2f\n", brinquedo->Preco);
-}
-
-//FUNCAO PARA IMPRIMIR OS DADOS CADASTRADOS DE FORMA ORDENARA (NOME)
-void imprimir_arvore_ordem_alfabetica(Arvore* arvore) {
-	if (!arvore_vazia(arvore)) {
-		imprimir_arvore_ordem_alfabetica(arvore->esquerda);
-		imprimir_brinquedo(arvore->brinquedo);
-		imprimir_arvore_ordem_alfabetica(arvore->direita);
-	}
 }
 
 Brinquedo* buscar_brinquedo(Arvore* arvore, char nome[125]) {
@@ -269,6 +304,25 @@ Arvore* remover_brinquedo(Arvore* arvore, char nome[125]) {
 		}
 	}
 	return arvore;
+}
+
+//METODO PARA RETORNAR E MOSTRAR OS DADOS DO BRINQUEDO NA TELA
+void imprimir_brinquedo(Brinquedo* brinquedo) {
+	printf("\nBrinquedo\n");
+	printf("Codigo: %d\n", brinquedo->Codigo);
+	printf("Nome: %s\n", brinquedo->Nome);
+	printf("Descricao: %s\n", brinquedo->Descricao);
+	printf("Quantidade Estoque: %d\n", brinquedo->Quantidade);
+	printf("Preco: %.2f\n", brinquedo->Preco);
+}
+
+//FUNCAO PARA IMPRIMIR OS DADOS CADASTRADOS DE FORMA ORDENARA (NOME)
+void imprimir_arvore_ordem_alfabetica(Arvore* arvore) {
+	if (!arvore_vazia(arvore)) {
+		imprimir_arvore_ordem_alfabetica(arvore->esquerda);
+		imprimir_brinquedo(arvore->brinquedo);
+		imprimir_arvore_ordem_alfabetica(arvore->direita);
+	}
 }
 
 void imprimirAcimaDeX(Arvore* arvore, float valor) { 
