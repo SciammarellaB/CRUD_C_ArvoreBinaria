@@ -16,10 +16,10 @@
 ### Prints do Projeto:
 
 - Menu
-  ![Menu](./assets/Menu.png)
+  - ![Menu](./assets/Menu.png)
 
 - Listar Brinquedos (ORDEM ALFABETICA)
-  ![Carga_Inicial](./assets/Cadastro_Inicial.png)
+  - ![Carga_Inicial](./assets/Cadastro_Inicial.png)
 
 - Consultar Brinquedo
 - Cadastrar Brinquedo
