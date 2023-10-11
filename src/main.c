@@ -52,12 +52,12 @@ Brinquedo* gerar_Brinquedo(char nome[125], char descricao[500], int quantidade, 
 }
 
 Arvore* cargaInicial(Arvore* arvore) {
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Jogo de Tabuleiro 'Detetive'", "Um jogo de estrategia e misterio para divertir toda a familia.", 10, 64.99));	
 	arvore = inserir_arvore(arvore, gerar_Brinquedo("Boneca de Pano", "Uma boneca de pano feita a mao, perfeita para abracar e brincar.", 15, 29.99));
 	arvore = inserir_arvore(arvore, gerar_Brinquedo("Carrinho de Controle Remoto", "Um carrinho de controle remoto rapido e agil para corridas emocionantes.", 12, 50));
 	arvore = inserir_arvore(arvore, gerar_Brinquedo("Quebra-Cabeca de 100 Pecas", "Um quebra-cabeca colorido com 100 pecas para desafiar a mente das criancas.", 20, 24.99));
 	arvore = inserir_arvore(arvore, gerar_Brinquedo("Bola de Futebol", "Uma bola de futebol de alta qualidade, ideal para jogos no parque.", 18, 40));
-	arvore = inserir_arvore(arvore, gerar_Brinquedo("Jogo de Construção de Blocos", "Conjunto de blocos de construcao para estimular a criatividade e habilidades motoras.", 25, 34.99));
-	arvore = inserir_arvore(arvore, gerar_Brinquedo("Jogo de Tabuleiro 'Detetive'", "Um jogo de estrategia e misterio para divertir toda a familia.", 10, 64.99));	
+	arvore = inserir_arvore(arvore, gerar_Brinquedo("Jogo de Construcao de Blocos", "Conjunto de blocos de construcao para estimular a criatividade e habilidades motoras.", 25, 34.99));
 	arvore = inserir_arvore(arvore, gerar_Brinquedo("Patins Infantis", "Patins ajustaveis para criancas aprenderem a patinar com segurança.", 8, 70));
 	arvore = inserir_arvore(arvore, gerar_Brinquedo("Piano de Brinquedo com Microfone", "Um piano eletronico com microfone para pequenos musicos em ascensao.", 14, 45));
 	arvore = inserir_arvore(arvore, gerar_Brinquedo("Quebra-Cabeca 3D de Castelo", "Um desafio em tres dimensoes para construir um castelo impressionante.", 6, 55));
@@ -83,7 +83,7 @@ int menu_principal() {
 	printf("\n(2) Consultar Brinquedo");
 	printf("\n(3) Cadastrar Brinquedo");
 	printf("\n(4) Listar Brinquedos com valor acima de:");
-	printf("\n(5) Listar Brinquedos com valor abaixo de:");	
+	printf("\n(5) Listar Brinquedos com valor abaixo de:");
 	printf("\n(6) Editar Brinquedo");
 	printf("\n(7) Remover Brinquedo");
 	printf("\n(8) Sair\n");
@@ -163,7 +163,7 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				printf("Remover Brinquedo\n\n");
 				char remocao[125];
 				printf("Digite o nome do brinquedo a ser removido: ");
-				scanf(" %[^\n]", busca);
+				scanf(" %[^\n]", remocao);
 				getchar();
 				arvore = remover_brinquedo(arvore, remocao);
 				break;
@@ -328,7 +328,7 @@ void imprimir_arvore_ordem_alfabetica(Arvore* arvore) {
 void imprimirAcimaDeX(Arvore* arvore, float valor) { 
 	if (!arvore)
 		return;
-	imprimirAcimaDeX(arvore->esquerda, valor);	
+	imprimirAcimaDeX(arvore->esquerda, valor);
 	if (arvore->brinquedo->Preco > valor)
 		imprimir_brinquedo(arvore->brinquedo);
 	imprimirAcimaDeX(arvore->direita, valor);
