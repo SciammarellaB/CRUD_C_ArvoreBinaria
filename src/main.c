@@ -1,8 +1,7 @@
-#define _CRT_SECURE_NO_WARNINGS 1
+#define _CRT_SECURE_NO_WARNINGS 1 // UTILIZADO PARA O Visual Studio nao reclamar de 'scanf_s'
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <stdbool.h>
 
 int BRINQUEDO_CODIGO_ATUAL = 1;
 
@@ -32,6 +31,7 @@ Arvore* cria_noArvore(Brinquedo* brinquedo, Arvore* esquerda, Arvore* direita);
 Arvore* inserir_arvore(Arvore* arvore, Brinquedo* brinquedo);
 int arvore_vazia(Arvore* arvore);
 Brinquedo* buscar_brinquedo(Arvore* arvore, char nome[125]);
+Brinquedo* editar_brinquedo(Brinquedo* brinquedo);
 Arvore* remover_brinquedo(Arvore* arvore, char nome[125]);
 void imprimir_brinquedo(Brinquedo* brinquedo);
 void imprimir_arvore_ordem_alfabetica(Arvore* arvore);
@@ -157,6 +157,24 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				system("pause");
 				break;
 			case 6:
+				limpar();
+				printf("Editar Brinquedo\n\n");
+				char editar[125];
+				printf("Digite o nome do brinquedo desejado: ");
+				scanf(" %[^\n]", editar);
+				getchar();
+				Brinquedo* brinquedoEditar = buscar_brinquedo(arvore, editar);
+				if (brinquedoEditar) {
+					imprimir_brinquedo(brinquedoEditar);
+					printf("\n");
+					Brinquedo* temp = brinquedoEditar;
+					arvore = remover_brinquedo(arvore, brinquedoEditar->Nome);
+					arvore = inserir_arvore(arvore, editar_brinquedo(temp));
+				}
+				else {
+					printf("\nBRINQUEDO NAO ENCONTRADO\n\n");
+					system("pause");
+				}
 				break;
 			case 7:
 				limpar();
@@ -191,7 +209,7 @@ Brinquedo* criar_Brinquedo() {
 	scanf(" %[^\n]", brinquedo->Nome);
 	getchar();
 
-	printf("Digite uma descricao (opcional): ");
+	printf("Digite uma descricao: ");
 	scanf(" %[^\n]", brinquedo->Descricao);
 	getchar();
 
@@ -265,6 +283,29 @@ Brinquedo* buscar_brinquedo(Arvore* arvore, char nome[125]) {
 	}
 	//QUANDO O NOME ATUAL DO NO DA ARVORE FOR ANTES DO QUE PROCURA
 	return buscar_brinquedo(arvore->esquerda, nome);
+}
+
+Brinquedo* editar_brinquedo(Brinquedo* brinquedo) {
+	Brinquedo* brinquedoEditado = (Brinquedo*)malloc(sizeof(Brinquedo));
+	brinquedoEditado->Codigo = brinquedo->Codigo;
+	
+	printf("Digite o nome do brinquedo: ");
+	scanf(" %[^\n]", brinquedoEditado->Nome);
+	getchar();
+
+	printf("Digite uma descricao: ");
+	scanf(" %[^\n]", brinquedoEditado->Descricao);
+	getchar();
+
+	printf("Digite a quantidade em estoque: ");
+	scanf("%d", &brinquedoEditado->Quantidade);
+	getchar();
+
+	printf("Digite o preco: ");
+	scanf("%f", &brinquedoEditado->Preco);
+	getchar();
+
+	return brinquedoEditado;
 }
 
 Arvore* remover_brinquedo(Arvore* arvore, char nome[125]) {
