@@ -21,7 +21,7 @@ typedef struct arvore {
 	Brinquedo* brinquedo;
 } Arvore;
 
-//CABECALHOS
+//CABECALHO METODOS
 int menu_principal();
 void gerenciar_menu_principal(Arvore* arvore);
 Arvore* inicializa_arvore();
@@ -138,7 +138,7 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				break;
 			case 4:
 				limpar();
-				printf("Valores Acima de:\n\n");
+				printf("Listar Brinquedos com valor acima de:\n\n");
 				float valorAcima = 0;
 				printf("Digite o valor: ");
 				scanf("%f", &valorAcima);
@@ -148,7 +148,7 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				break;
 			case 5:
 				limpar();
-				printf("Valores Abaixo de:\n\n");
+				printf("Listar Brinquedos com valor abaixo de:\n\n");
 				float valorAbaixo = 0;
 				printf("Digite o valor: ");
 				scanf("%f", &valorAbaixo);
@@ -168,8 +168,10 @@ void gerenciar_menu_principal(Arvore* arvore) {
 					imprimir_brinquedo(brinquedoEditar);
 					printf("\n");
 					Brinquedo* temp = brinquedoEditar;
+					printf("Editar dados:\n\n");
 					arvore = remover_brinquedo(arvore, brinquedoEditar->Nome);
 					arvore = inserir_arvore(arvore, editar_brinquedo(temp));
+					free(temp);
 				}
 				else {
 					printf("\nBRINQUEDO NAO ENCONTRADO\n\n");
@@ -244,7 +246,7 @@ Arvore* cria_noArvore(Brinquedo* brinquedo, Arvore* esquerda, Arvore* direita) {
 
 Arvore* inserir_arvore(Arvore* arvore, Brinquedo* brinquedo) {
 
-	//CASO NAO TENHA NENHUM ITEM NA ARVORE
+	//CASO SEJA A POSICAO A SER INSERIDO
 	if (!arvore)
 		return cria_noArvore(brinquedo, NULL, NULL);
 
@@ -322,6 +324,7 @@ Arvore* remover_brinquedo(Arvore* arvore, char nome[125]) {
 	else {
 		//CASO NAO POSSUA NO ESQUERDO OU DIREITO
 		if (!arvore->esquerda && !arvore->direita) {
+			free(arvore->brinquedo);
 			free(arvore);
 			arvore = NULL;
 		}
@@ -332,8 +335,10 @@ Arvore* remover_brinquedo(Arvore* arvore, char nome[125]) {
 				arvore = arvore->esquerda;
 			else
 				arvore = arvore->direita;
+			free(temp->brinquedo);
 			free(temp);
 		}
+		//CASO POSSUA NO NOS DOIS LADOS
 		else {
 			Arvore* temp = arvore->esquerda;
 			while (temp->direita)
