@@ -53,4 +53,3 @@
     - ![Remover_Nao_Encontrado](./assets/RemoverNaoEncontrado.png)
   - Brinquedo encontrado:
     - ![Remover_Encontrado](./assets/RemoverEncontrado.png)
-- Sair
