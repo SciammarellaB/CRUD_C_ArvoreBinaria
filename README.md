@@ -37,11 +37,20 @@
     - ![Cadastro_Brinquedo_Novo](./assets/CadastroBrinquedoNovo.png)
 
 - Listar Brinquedos com valor acima de:
+  - ![Busca_Valor_Acima](./assets/BuscaValorAcima.png)
 
 - Listar Brinquedos com valor abaixo de:
+  - ![Busca_Valor_Abaixo](./assets/BuscaValorAbaixo.png)
 
 - Editar Brinquedo
+  - Brinquedo que não existe:
+    - ![Editar_Nao_Encontrado](./assets/EditarNaoEncontrado.png)
+  - Brinquedo encontrado:
+    - ![Editar_Encontrado](./assets/EditarEncontrado.png)
 
 - Remover Brinquedo
-
+  - Brinquedo que não existe:
+    - ![Remover_Nao_Encontrado](./assets/RemoverNaoEncontrado.png)
+  - Brinquedo encontrado:
+    - ![Remover_Encontrado](./assets/RemoverEncontrado.png)
 - Sair

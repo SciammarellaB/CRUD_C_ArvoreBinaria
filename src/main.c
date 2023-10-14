@@ -190,9 +190,16 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				printf("Digite o nome do brinquedo a ser removido: ");
 				scanf(" %[^\n]", remocao);
 				getchar();
-				arvore = remover_brinquedo(arvore, remocao);
-				printf("\nBrinquedo Removido com sucesso!\n\n");
-				system("pause");
+				Brinquedo* brinquedoRemover = buscar_brinquedo(arvore, remocao);
+				if (brinquedoRemover) {
+					arvore = remover_brinquedo(arvore, brinquedoRemover->Nome);
+					printf("\nBrinquedo Removido com sucesso!\n\n");
+					system("pause");
+				}
+				else {
+					printf("\nBRINQUEDO NAO ENCONTRADO\n\n");
+					system("pause");
+				}
 				break;
 			case 8:
 				sair = 1;
