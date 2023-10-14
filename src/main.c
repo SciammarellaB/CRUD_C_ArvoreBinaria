@@ -135,6 +135,8 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				limpar();
 				printf("Cadastrar Brinquedo\n\n");
 				arvore = inserir_arvore(arvore, criar_Brinquedo());
+				printf("\nBrinquedo Cadastrado com sucesso!\n\n");
+				system("pause");
 				break;
 			case 4:
 				limpar();
@@ -168,10 +170,13 @@ void gerenciar_menu_principal(Arvore* arvore) {
 					imprimir_brinquedo(brinquedoEditar);
 					printf("\n");
 					Brinquedo* temp = brinquedoEditar;
+					int codigo = temp->Codigo;
 					printf("Editar dados:\n\n");
 					arvore = remover_brinquedo(arvore, brinquedoEditar->Nome);
-					arvore = inserir_arvore(arvore, editar_brinquedo(temp));
+					arvore = inserir_arvore(arvore, editar_brinquedo(codigo));
 					free(temp);
+					printf("\nBrinquedo Editado com sucesso!\n\n");
+					system("pause");
 				}
 				else {
 					printf("\nBRINQUEDO NAO ENCONTRADO\n\n");
@@ -186,6 +191,8 @@ void gerenciar_menu_principal(Arvore* arvore) {
 				scanf(" %[^\n]", remocao);
 				getchar();
 				arvore = remover_brinquedo(arvore, remocao);
+				printf("\nBrinquedo Removido com sucesso!\n\n");
+				system("pause");
 				break;
 			case 8:
 				sair = 1;
@@ -287,9 +294,9 @@ Brinquedo* buscar_brinquedo(Arvore* arvore, char nome[125]) {
 	return buscar_brinquedo(arvore->esquerda, nome);
 }
 
-Brinquedo* editar_brinquedo(Brinquedo* brinquedo) {
+Brinquedo* editar_brinquedo(int codigo) {
 	Brinquedo* brinquedoEditado = (Brinquedo*)malloc(sizeof(Brinquedo));
-	brinquedoEditado->Codigo = brinquedo->Codigo;
+	brinquedoEditado->Codigo = codigo;
 	
 	printf("Digite o nome do brinquedo: ");
 	scanf(" %[^\n]", brinquedoEditado->Nome);
@@ -323,8 +330,7 @@ Arvore* remover_brinquedo(Arvore* arvore, char nome[125]) {
 	//ENCONTROU O NO
 	else {
 		//CASO NAO POSSUA NO ESQUERDO OU DIREITO
-		if (!arvore->esquerda && !arvore->direita) {
-			free(arvore->brinquedo);
+		if (!arvore->esquerda && !arvore->direita) {			
 			free(arvore);
 			arvore = NULL;
 		}
@@ -334,8 +340,7 @@ Arvore* remover_brinquedo(Arvore* arvore, char nome[125]) {
 			if (arvore->esquerda)
 				arvore = arvore->esquerda;
 			else
-				arvore = arvore->direita;
-			free(temp->brinquedo);
+				arvore = arvore->direita;			
 			free(temp);
 		}
 		//CASO POSSUA NO NOS DOIS LADOS

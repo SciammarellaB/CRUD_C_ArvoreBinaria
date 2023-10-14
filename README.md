@@ -13,6 +13,9 @@
 - É possível executar ações padrões como: "Listar, Cadastrar, Consultrar, Editar e Excluir".
 - Ações extras como: "Listar acima de X valor e Listar abaixo de X valor" foram adicionadas como diferencial.
 
+### Árvore Inicial
+![Menu](./assets/ArvoreInicial.png)
+
 ### Prints do Projeto:
 
 - Menu
@@ -22,9 +25,23 @@
   - ![Carga_Inicial](./assets/Cadastro_Inicial.png)
 
 - Consultar Brinquedo
+  - Brinquedo que não existe:
+    - ![Consulta_Nao_Encontrata](./assets/ConsultaNaoEncontrada.png)
+  - Brinquedo encontrado:
+    - ![Consulta_Encontrata](./assets/ConsultaEncontrada.png)
+
 - Cadastrar Brinquedo
+  - Brinquedo já existe:
+    - ![Cadastro_Brinquedo_Existente](./assets/CadastroBrinquedoExistente.png)
+  - Brinquedo novo:
+    - ![Cadastro_Brinquedo_Novo](./assets/CadastroBrinquedoNovo.png)
+
 - Listar Brinquedos com valor acima de:
+
 - Listar Brinquedos com valor abaixo de:
+
 - Editar Brinquedo
+
 - Remover Brinquedo
+
 - Sair
